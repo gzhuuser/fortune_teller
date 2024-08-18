@@ -2,45 +2,43 @@ import http.client
 import json
 import re
 
+
 def MMML(url):
-    conn = http.client.HTTPSConnection("tb.plus7.plus")
-    payload = json.dumps({
-       "model": "gpt-4o",
-       "stream": False,
-       "messages": [
-          {
-             "role": "user",
-             "content": [
+    conn = http.client.HTTPSConnection("")
+    payload = json.dumps(
+        {
+            "model": "gpt-4o",
+            "stream": False,
+            "messages": [
                 {
-                   "type": "text",
-                   "text": "描述一下这个掌纹感情线，生命线，智慧线，婚姻线，事业线,格式按照 **感情线**：内容\n给出,最后一行给出掌纹不科学"
-                },
-                {
-                   "type": "image_url",
-                   "image_url": {
-                      "url": url
-                   }
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "描述一下这个掌纹感情线，生命线，智慧线，婚姻线，事业线,格式按照 **感情线**：内容\n给出,最后一行给出掌纹不科学",
+                        },
+                        {"type": "image_url", "image_url": {"url": url}},
+                    ],
                 }
-             ]
-          }
-       ],
-       "temperature": 0.9,
-       "max_tokens": 400
-    })
+            ],
+            "temperature": 0.9,
+            "max_tokens": 400,
+        }
+    )
     headers = {
-       'Accept': 'application/json',
-       'Authorization': 'Bearer sk-MvBwthJ5i2AlxWNi4236A49c421b4a2895CcD0AdF86bFa5d',
-       'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
-       'Content-Type': 'application/json'
+        "Accept": "application/json",
+        "Authorization": "Bearer sk-",
+        "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
+        "Content-Type": "application/json",
     }
     conn.request("POST", "/v1/chat/completions", payload, headers)
     res = conn.getresponse()
     data = res.read()
-    #得到返回的数据
+    # 得到返回的数据
     print(data.decode("utf-8"))
     data = json.loads(data.decode("utf-8"))
-    #提取内容
-    content = data['choices'][0]['message']['content']
+    # 提取内容
+    content = data["choices"][0]["message"]["content"]
     # 使用正则表达式提取"生命线"后的文本
     print(content)
     # 使用正则表达式提取每条掌纹后的文本
@@ -49,7 +47,7 @@ def MMML(url):
         "智慧线": r"\*\*智慧线\*\*：(.*?)\n",
         "感情线": r"\*\*感情线\*\*：(.*?)\n",
         "婚姻线": r"\*\*婚姻线\*\*：(.*?)\n",
-        "事业线": r"\*\*事业线\*\*：(.*?)\n"
+        "事业线": r"\*\*事业线\*\*：(.*?)\n",
     }
 
     # 初始化一个字典来存储提取的内容
@@ -66,5 +64,7 @@ def MMML(url):
     # 打印提取结果
     print(json.dumps(palm_lines, ensure_ascii=False, indent=2))
     return json.dumps(palm_lines, ensure_ascii=False, indent=2)
-MMML("https://image-bed-datawhale.oss-cn-beijing.aliyuncs.com/test/myhand.png")
 
+
+if __name__ == "__main__":
+    MMML("https://image-bed-datawhale.oss-cn-beijing.aliyuncs.com/test/myhand.png")
