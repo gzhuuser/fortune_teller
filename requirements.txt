@@ -5,4 +5,8 @@ modelscope
 pandas
 numpy
 gradio
+oss2
 sentencepiece
+einops
+bitsandbytes 
+flask
