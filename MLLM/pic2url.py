@@ -1,11 +1,12 @@
 import oss2
 from itertools import islice
+import os
 
 # 1 代码嵌入方式配置
 def pic2url(path):
     # 填写RAM用户的访问密钥（AccessKey ID和AccessKey Secret）。
-    accessKeyId = ""
-    accessKeySecret = ""
+    accessKeyId = os.getenv("accessKeyId")
+    accessKeySecret = os.getenv("accessKeySecret")
     # 使用代码嵌入的RAM用户的访问密钥配置访问凭证。
     auth = oss2.Auth(accessKeyId, accessKeySecret)
 

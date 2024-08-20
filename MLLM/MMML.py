@@ -1,10 +1,13 @@
 import http.client
 import json
 import re
+import os
 
 
 def MMML(url):
-    conn = http.client.HTTPSConnection("")
+    key = os.getenv("key")
+    base_url = os.getenv("base_url")
+    conn = http.client.HTTPSConnection(base_url)
     payload = json.dumps(
         {
             "model": "gpt-4o",
@@ -27,7 +30,7 @@ def MMML(url):
     )
     headers = {
         "Accept": "application/json",
-        "Authorization": "Bearer sk-",
+        "Authorization": f"Bearer {key}",
         "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
         "Content-Type": "application/json",
     }
@@ -35,12 +38,9 @@ def MMML(url):
     res = conn.getresponse()
     data = res.read()
     # 得到返回的数据
-    print(data.decode("utf-8"))
     data = json.loads(data.decode("utf-8"))
     # 提取内容
     content = data["choices"][0]["message"]["content"]
-    # 使用正则表达式提取"生命线"后的文本
-    print(content)
     # 使用正则表达式提取每条掌纹后的文本
     patterns = {
         "生命线": r"\*\*生命线\*\*：(.*?)\n",
@@ -63,8 +63,13 @@ def MMML(url):
 
     # 打印提取结果
     print(json.dumps(palm_lines, ensure_ascii=False, indent=2))
-    return json.dumps(palm_lines, ensure_ascii=False, indent=2)
+
+    # 返回字典格式的提取结果
+    return palm_lines
 
 
 if __name__ == "__main__":
-    MMML("https://image-bed-datawhale.oss-cn-beijing.aliyuncs.com/test/myhand.png")
+    result = MMML(
+        "https://image-bed-datawhale.oss-cn-beijing.aliyuncs.com/test/myhand.png"
+    )
+    print(result)  # 打印字典格式的结果

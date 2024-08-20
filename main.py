@@ -1,64 +1,95 @@
-from utils.Knowledge import KnowledgeBase
+from MLLM.pic2url import pic2url
+from MLLM.MMML import MMML
+from RAG.utils import rag_matching
+from RAG.Knowledge import KnowledgeBase
+from modelscope import snapshot_download
+from LLM.model import get_model, generate_response, generate_stream_response
+import os
+import numpy as np
+from PIL import Image
+
+os.environ["key"] = ""
+os.environ["base_url"] = ""
+os.environ["accessKeyId"] = ""
+os.environ["accessKeySecret"] = ""
+
+# 初始化历史记录
+history = []
+
+PROMPT = """
+你是一个算命大师,你需要结合用户的手相特征和已知信息回答用户的问题
+
+现在用户的手相特征如下:
+---
+{MMML_res}
+---
+
+目前已知的信息是:
+---
+{RAG_res}
+---
+
+用户的问题是:
+---
+{user_input}
+---
+"""
 
 
-model_dir = "AI-ModelScope/bge-large-zh-v1.5"
-instruction = "为这个句子生成表示以用于检索相关文章"
+def init():
+    # 下载模型并得到模型在本地存储的路径
+    model_dir = snapshot_download(
+        "AI-ModelScope/bge-large-zh-v1.5", cache_dir="./", revision="master"
+    )
+    instruction = "为这个句子生成表示以用于检索相关文章"
+    # 初始化并加载知识库
+    knowledge_base = KnowledgeBase(model_dir, instruction)
+    knowledge_base.load_knowledge("./RAG/data/knowledge_embeddings_with_indices.pkl")
+    # knowledge_base = None
+    tokenizer, model = get_model()
+    return knowledge_base, model, tokenizer
 
-knowledge_base = KnowledgeBase(model_dir, instruction)
 
-# 示例知识文本
-text = [
-    """
-    五大掌紋分析：
-    
-    婚姻線：反映婚姻狀況，但不等同於婚姻次數。
-    感情線：揭示一個人的情感狀態和愛情運勢。
-    智慧線：反映思維能力和學習心態。
-    生命線：象徵健康狀況和生活熱情，而非壽命長短。
-    事業線/命運線：象徵事業運勢和人生方向，並不完全等同於財富。
-    """,
-    """
-    手相分析的五大原則：
-    
-    慣用手：反映一個人的意識層面和當前的生活狀況。
-    非慣用手：代表潛意識層面和先天性格。
-    左右手的比較：可以解讀不同的意義，顯示一個人是否在改變現狀。
-    掌紋方向：平行掌紋如婚姻線、感情線、智慧線和生命線，以及垂直掌紋如事業線，各自代表不同的運勢和影響力。
-    """,
-    """
-    四種手形與人格特質：
-    
-    大地型手掌：踏實負責，但有時固執。
-    火型手掌：外向熱情，喜歡冒險，但易衝動。
-    空氣型手掌：聰明且善於社交，但易走極端。
-    水型手掌：敏感、創意豐富，但容易情緒化。
-    """,
-    """
-    手相常見問題：
-    
-    斷掌代表個性鮮明，與過去的迷思不同。
-    雙手靈活的人可通過手相分析潛在意識。
-    婚姻線不能直接反映婚姻次數或子女數量。
-    事業線紋路深長不一定代表高收入，而是對人生方向的滿意度。
-    生命線並不代表壽命，而是要了解情緒和生活態度。
-    """,
-    """
-    手相的基本概念：手相學已有四千多年的歷史，透過觀察手掌和掌紋的形狀來判斷一個人的性格、生活狀態和未來運勢。
-    """,
-]
+def process_input(text, image, knowledge_base, model, tokenizer):
+    global history  # 使用全局历史记录变量
 
-# 预处理并保存知识库
-# knowledge_base.preprocess_knowledge(text, "knowledge_embeddings_with_indices.pkl")
+    if image is not None:
+        # 将图像保存到本地
+        image_path = "./uploaded_image.jpg"
+        image_pil = Image.fromarray(image.astype(np.uint8))  # 将 numpy 数组转换为 PIL 图像
+        image_pil.save(image_path)
 
-# 加载知识库
-knowledge_base.load_knowledge("knowledge_embeddings_with_indices.pkl")
+        # 使用初始化的模型处理图像
+        cloud_url = pic2url(image_path)
+        MMML_res = MMML(cloud_url)
+        RAG_res = rag_matching(MMML_res, knowledge_base, topk=1)
+        print(RAG_res)
+        # # 记录用户的输入
 
-# 进行查询并匹配
-queries = ["命运线：浅显。"]
-matches = knowledge_base.match_query(queries, top_k=2)
+        content = PROMPT.format(MMML_res=MMML_res, RAG_res=RAG_res, user_input=text)
+        history.append({"role": "user", "content": content})
+        system_response = generate_response(tokenizer, model, history)
+        # 记录系统的响应
+        history.append({"role": "system", "content": system_response})
 
-print("匹配结果：")
-for query, match in zip(queries, matches):
-    print(f"Query: {query}")
-    for text, score, idx in match:
-        print(f"  Matched Text: {text}, Score: {score}, Original Index: {idx}")
+        return system_response
+    else:
+        # 记录用户的输入
+        history.append({"role": "user", "content": text})
+        # 记录系统的响应
+        history.append({"role": "assistant", "content": "No image uploaded"})
+
+        # 将历史记录合成为一个prompt
+        prompt = "\n".join([f"{h['role']}: {h['content']}" for h in history])
+
+        return f"Text: {text}\nNo image uploaded"
+
+
+# 初始化模型和知识库
+knowledge_base, model, tokenizer = init()
+
+
+# 启动应用程序
+if __name__ == "__main__":
+    res = process_input("帮我分析一下手相", " ", knowledge_base, model, tokenizer)
+    print(res)
