@@ -1,0 +1,35 @@
+@import './base.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.c-border-center {
+    @apply border border-gray-300  rounded-md   flex justify-center items-center  my-2 py-2;
+}
+.word-break{
+    word-wrap: break-word;
+}
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+  /* Track */
+::-webkit-scrollbar-track {
+    background: var(--lightestgrey);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
