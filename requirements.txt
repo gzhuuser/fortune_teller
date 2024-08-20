@@ -1,0 +1,8 @@
+transformers
+FlagEmbedding
+peft
+modelscope
+pandas
+numpy
+gradio
+sentencepiece
