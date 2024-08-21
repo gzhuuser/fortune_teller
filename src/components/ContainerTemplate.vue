@@ -53,7 +53,17 @@
                 <!-- 设置页面 -->
                 <div class="basis-1/12 flex justify-start items-center h-full  ">
                      <!-- 头像 -->
+
                      <div class=" w-1/4  flex justify-center items-center" @click="handleAvatarClick()">
+                            <n-tooltip trigger="hover">
+                                <template #trigger>
+                                    <n-button text size="large" class="px-2"
+                                        @click="deleteChatItemHistory(route.params.uuid)">
+                                        
+                                    </n-button>
+                                </template>
+                                点击修改头像
+                            </n-tooltip>
                             <img class=" rounded-full h-10 w-10" :src=" avatar " alt="avatar">
                     </div>
                     <input type="file" ref="avatarInput" style="display: none;" @change="handleAvatarChange" accept="image/*" />
@@ -81,31 +91,14 @@
                                     </template>
                                     <n-tabs type="line" animated>
                                         <n-tab-pane name="about" tab="关于">
-                                            <div>这是一个demo项目，仅用于学习。</div>
+                                            <div>这是一个给定非惯用手的图片进行识别和命运分析的“算命大师”网站</div>
                                             <div class="my-4">技术栈：Vue3 + Vite + tailwindCss3 + NaiveUi</div>
-                                        </n-tab-pane>
-                                        <n-tab-pane name="settings" tab="设置">
-                                            <div class=" grid grid-rows-3 gap-4">
-                                                <div>
-                                                    <span class=" mr-4">Model: </span>
-                                                    <n-select :style="{ width: '80%' }" :options="selectOptions"
-                                                        v-model:value="setting.model" />
-                                                </div>
-                                                <div>
-                                                    <span class=" mr-4">Temperatures: </span>
-                                                    <n-input-number :style="{ width: '80%' }" :default-value="0.8"
-                                                        :step="0.1" :max="1" :min="0.1"
-                                                        v-model:value="setting.Temperatures" />
-                                                </div>
-                                                <div>
-                                                    <span class=" mr-4">Top_p: </span>
-                                                    <n-input-number :style="{ width: '80%' }" :default-value="1" :step="1"
-                                                        :max="1" :min="1" v-model:value="setting.Top_p" />
-                                                </div>
-                                            </div>
+                                            <div class="my-4">多模态识别 + RAG + 浪潮llm</div>
+                                            <div class="my-4">前端：Vue3 + Vite + tailwindCss3 + NaiveUi</div>
+                                            <div class="my-4">后端：python + flask</div>
                                         </n-tab-pane>
                                         <n-tab-pane name="other" tab="开发文档">
-                                            开发文档：
+                                            开发文档：<a href="https://rvg7j9czg8m.feishu.cn/wiki/HcFMwY0zviaaXHkvZa8cH9fYnmf">点击跳转 </a>
                                         </n-tab-pane>
                                     </n-tabs>
 
@@ -184,10 +177,10 @@
                         <!-- 简介 -->
                         <div class=" w-2/4  h-full grid grid-rows-2">
                             <div class=" flex justify-start items-end font-bold">
-                                算命大师
+                                用户
                             </div>
                             <div class=" text-xs">
-                                Start On <a class=" text-blue-400" href="https://github.com/gzhuuser/fortune_teller">Github</a>
+                                我们的项目地址：Start On <a class=" text-blue-400" href="https://github.com/gzhuuser/fortune_teller">Github</a>
                             </div>
                         </div>
                         <!-- 设置 -->
@@ -205,34 +198,17 @@
                                         <template #header-extra>
                                         </template>
                                         <n-tabs type="line" animated>
-                                            <n-tab-pane name="about" tab="关于">
-                                                <div>这是一个demo项目，仅用于学习。</div>
-                                                <div class="my-4">技术栈：Vue3 + Vite + tailwindCss3 + NaiveUi</div>
-                                            </n-tab-pane>
-                                            <n-tab-pane name="settings" tab="设置">
-                                                <div class=" grid grid-rows-3 gap-4">
-                                                    <div>
-                                                        <span class=" mr-4">Model: </span>
-                                                        <n-select :style="{ width: '80%' }" :options="selectOptions"
-                                                            v-model:value="setting.model" />
-                                                    </div>
-                                                    <div>
-                                                        <span class=" mr-4">Temperatures: </span>
-                                                        <n-input-number :style="{ width: '80%' }" :default-value="0.8"
-                                                            :step="0.1" :max="1" :min="0.1"
-                                                            v-model:value="setting.Temperatures" />
-                                                    </div>
-                                                    <div>
-                                                        <span class=" mr-4">Top_p: </span>
-                                                        <n-input-number :style="{ width: '80%' }" :default-value="1"
-                                                            :step="1" :max="1" :min="1" v-model:value="setting.Top_p" />
-                                                    </div>
-                                                </div>
-                                            </n-tab-pane>
-                                            <n-tab-pane name="other" tab="其他">
-                                                其他
-                                            </n-tab-pane>
-                                        </n-tabs>
+                                        <n-tab-pane name="about" tab="关于">
+                                            <div>这是一个给定非惯用手的图片进行识别和命运分析的“算命大师”网站</div>
+                                            <div class="my-4">技术栈：Vue3 + Vite + tailwindCss3 + NaiveUi</div>
+                                            <div class="my-4">多模态识别 + RAG + 浪潮llm</div>
+                                            <div class="my-4">前端：Vue3 + Vite + tailwindCss3 + NaiveUi</div>
+                                            <div class="my-4">后端：python + flask</div>
+                                        </n-tab-pane>
+                                        <n-tab-pane name="other" tab="开发文档">
+                                            开发文档：<a href="https://rvg7j9czg8m.feishu.cn/wiki/HcFMwY0zviaaXHkvZa8cH9fYnmf">点击跳转 </a>
+                                        </n-tab-pane>
+                                    </n-tabs>
 
                                     </n-modal>
                                 </div>
@@ -253,15 +229,33 @@
                         class=" flex flex-col mt-1  msgItem ">
                         <div :class="msglist.reversion ? 'flex-row-reverse' : 'flex-row'"
                             class=" flex justify-start items-center h-10">
-                            <img class=" rounded-full h-10 w-10"  :src="msglist.reversion?'/assets/human5.png':'/assets/icon.jpg'" alt="avatar">
+                            <img class=" rounded-full h-10 w-10"  :src="msglist.reversion?avatar:'/assets/icon.jpg'" alt="avatar">
                             <span class="ml-4 text-sm">{{ msglist.create_time }}</span>
                         </div>
                         <div class="flex  " :class="msglist.reversion ? 'flex-row-reverse' : 'flex-row'">
                             <div
                                 class="bg-blue-200 dark:bg-white dark:text-black w-auto max-w-[80%] min-w-[1%] break-words overflow-ellipsis rounded-sm p-2 my-1">
-                                <n-spin v-if="msglist.msgload" size="small" stroke="red" />
-                                <Markdown v-else :source="msglist.content"></Markdown>
+                                <img :src="msglist.image" v-if="msglist.image" style="max-width: 200px;max-height: 200px;" alt="手相图"> 
+                               
+                                <Markdown  :source="msglist.text"></Markdown>
                             </div>
+                           
+                           
+                            <n-modal  style="width: 600px" class="custom-card" preset="card" v-model:show="showHand"
+                                    title="" size="huge">
+                                    <div class="hand"></div>
+                                    <div class=" mr-4" style="    margin-top:20px;">请选择你要分析的手相线(分析更准确哦): </div>
+                                    <div style="display: flex;">
+                                        <n-select :style="{ width: '60%' }" :options="selectOptions"
+                                        v-model:value="Input_feature" />
+                                        <n-button ghost class=" h-auto dark:text-blue " @click="addMessageListItem(route.params.uuid)">
+                                            选好了~
+                                        </n-button>
+                                    </div>
+                                   
+                            </n-modal>
+                     
+                            
 
                         </div>
                     </div>
@@ -302,11 +296,11 @@
                                         </n-icon>
                                     </n-button>
                                 </template>
-                                上传手相图片
+                                上传手相图片(请上传非惯用手的图片，分析更准确哦~)
                             </n-tooltip>
 
                             <input type="file" ref="fileInput" style="display: none;" @change="handleFileChange" accept="image/*" />
-                            <n-input show-count @keyup.ctrl.enter="addMessageListItem(route.params.uuid)"
+                            <n-input show-count @keyup.enter="showHandFcn()"
                                 placeholder="请输入你的问题" v-model:value="input_area_value" type="textarea" size="tiny" :autosize="{
                                     minRows: 2,
                                     maxRows: 5
@@ -315,7 +309,7 @@
                                     <img v-if="selectedImage" :src="selectedImage" alt="Selected Image" class="max-h-20 max-w-20" />
                                  </template>
                             </n-input>
-                            <n-button ghost class=" h-auto dark:text-white " @click="addMessageListItem(route.params.uuid)">
+                            <n-button ghost class=" h-auto dark:text-white " @click="showHandFcn()">
                                 发送
                             </n-button>
                         </n-input-group>
@@ -351,11 +345,35 @@
     const message = useMessage()
     const fileInput = ref(null);
     const selectedImage = ref(null);
+    const showHand = ref(false);
+    const showSetting = ref(false)
     const avatar = ref('../assets/human5.png');
     const avatarInput = ref(null);
-
+    const Input_feature = ref(null);
+    var selectOptions = ref([
+        {
+            label: '感情线',
+            value: '感情线'
+        },
+        {
+            label: '生命线',
+            value: '生命线'
+        },
+        {
+            label: '智慧线',
+            value: '智慧线'
+        },
+        {
+            label: '婚姻线',
+            value: '婚姻线'
+        },
+        {
+            label: '事业线',
+            value: '事业线'
+        }
+    ])
     const handleAvatarClick = () => {
-        console.log(avatar.value)
+        // console.log(avatar.value)
         avatarInput.value.click();
     }
 
@@ -371,30 +389,6 @@
     };
     // 控制侧边栏显示隐藏
     var controlSidebarHidden = ref(true)
-    // 移动端下侧边栏显影
-
-    const showSetting = ref(false)
-    var setting = reactive({
-        model: 'gpt-3.5-turbo',
-        Temperatures: 0.8,
-        Top_p: 1,
-    })
-
-    var segmented = {
-        content: 'soft',
-        footer: 'soft'
-    }
-
-    var selectOptions = ref([
-        {
-            label: 'gpt-3.5-turbo',
-            value: 'gpt-3.5-turbo'
-        },
-        {
-            label: 'gpt-4',
-            value: 'gpt-4'
-        }
-    ])
 
     var centerLodding = ref(false)
 
@@ -402,20 +396,16 @@
     var left_data = reactive({
         left_list: [
             { uuid: 1, title: 'New Chat1', enable_edit: false },
-            { uuid: 2, title: 'New Chat2', enable_edit: false },
+            // { uuid: 2, title: 'New Chat2', enable_edit: false },
         ],
         chat: [
             {
                 uuid: 1, msg_list: [
-                    { type: 'text',content: 'hello1', create_time: '2023-11-09 11:50:23', reversion: false, msgload: false },
-                    { type: 'text',content: 'hallo', create_time: '2024-8-15 12:00:00', reversion: true, msgload: true}
+                    { image:null,text: 'hello,我是算命大师，欢迎来到我的网站，请上传你的手相图并向我咨询吧~', feature:'',create_time: (new Date()).toLocaleString('sv-SE', { "timeZone": "PRC" }), reversion: false, msgload: false },
+                    // { type: 'text',content: 'hallo', create_time: '2024-8-15 12:00:00', reversion: true, msgload: true}
                 ]
             },
-            {
-                uuid: 2, msg_list: [
-                    { type:'text', content: 'xxx', create_time: '2023-11-09 11:50:23', reversion: false, msgload: false },
-                ]
-            },
+           
         ],
 
     })
@@ -423,7 +413,10 @@
     const handleUploadImage = () => {
         fileInput.value.click();
     }
-
+    const image_url = (image)=>{
+        console.log(image)
+        return  new FileReader().readAsDataURL(image);
+    }
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -437,6 +430,7 @@
 
     // 监听响应式数据
     watch(left_data, (newValue, oldValue) => {
+        // TODO:待完善，只能存储5m，多了会报错，后期可以改成存在后端数据库然后从后端中获取
         localStorage.setItem('chatweb', JSON.stringify(newValue))
     })
 
@@ -445,7 +439,6 @@
         // 读取 localstorage
         const data = localStorage.getItem('chatweb')
         if (data) {
-
             const history = JSON.parse(data)
             left_data.left_list = history.left_list
             left_data.chat = history.chat
@@ -490,6 +483,7 @@
     function getMsgList(uuid) {
         if (uuid && uuid != undefined) {
             var index = left_data.chat.findIndex(v => v.uuid == uuid)
+            // console.log(left_data.chat,uuid)
             return left_data.chat[index].msg_list
         }
         return []
@@ -508,148 +502,137 @@
     // 监听侧边栏item的回车事件
     function submit(index) {
         editLeftListEle(index)
-    }
 
+    }
+    
     // 发送消息
+    function showHandFcn(){ 
+        if(input_area_value.value===''){
+            message.error('请输入内容')
+        }
+        else{
+            showHand.value = !showHand.value
+        }
+    }
     function addMessageListItem(uuid) {
-        var index = left_data.chat.findIndex(v => v.uuid == uuid)
-        const now_t = (new Date()).toLocaleString('sv-SE', { "timeZone": "PRC" })
-        if (selectedImage.value) {
-            left_data.chat[index].msg_list.push({
-            type: 'image',
-            content: selectedImage.value,
-            create_time: now_t,
-            reversion: true,
-            msgload: false
-        });
-            selectedImage.value = null;
-        } else if (input_area_value.value) {
-            left_data.chat[index].msg_list.push({
-                type: 'text',
-                content: input_area_value.value,
+        
+        // console.log(Input_feature.value)
+        if(Input_feature.value!=null){
+            showHandFcn()
+            // console.log(Input_feature)
+            var index = left_data.chat.findIndex(v => v.uuid == uuid)
+            const now_t = (new Date()).toLocaleString('sv-SE', { "timeZone": "PRC" })
+            if (selectedImage.value && input_area_value.value) {
+                left_data.chat[index].msg_list.push({
+                // type: 'image',
+                image:selectedImage.value,
+                text: input_area_value.value,
+                feature:Input_feature.value,
                 create_time: now_t,
                 reversion: true,
                 msgload: false
-        })}
-        input_area_value.value = ''
-        var ele = document.getElementById("msgArea")
-        ele.scrollTop = ele.scrollHeight + ele.offsetHeight
-        left_data.chat[index].msg_list.push({
-            type: '',
-            content: '',
-            create_time: now_t,
-            reversion: false,
-            msgload: true
-        })
-        startStream(index)
-    }
-
-    function buildMessagePromt(index) {
-        const res = []
-        left_data.chat[index].msg_list.forEach(v => {
-            let role = v.reversion ? 'user' : 'assistant'
-            res.push({
-                role: role,
-                content: v.content
+            });
+                selectedImage.value = null;
+                input_area_value.value = ''
+                startStream(index)
+            } else if (input_area_value.value) {
+                left_data.chat[index].msg_list.push({
+                    // type: 'text',
+                    image:null,
+                    text: input_area_value.value,
+                    feature:Input_feature.value,
+                    create_time: now_t,
+                    reversion: true,
+                    msgload: false
             })
-        })
-        return res
+                startStream(index)
+                input_area_value.value = ''
+            }
+
+        
+            var ele = document.getElementById("msgArea")
+            ele.scrollTop = ele.scrollHeight + ele.offsetHeight
+            left_data.chat[index].msg_list.push({
+                image:null,
+                text: '',
+                feature:'',
+                create_time: now_t,
+                reversion: false,
+                msgload: true
+            })
+        
+        }else{
+            message.error('请先选择你要分析的手相线~')
+        }
+        
     }
-    // const response = await fetch(url, {
-            //     "method": "POST",
-            //     "headers": {
-            //         Authorization: `Bearer ${key}`
-            //     },
-            //     "mode": "cors",
-            //     "body": JSON.stringify({
-            //         model: setting.model,
-            //         messages: buildMessagePromt(index),
-            //         temperature: setting.Temperatures,
-            //         top_p: setting.Top_p,
-            //         stream: true,
-            //     }),
-            //     "timeout": 1000,
-            // });
 
     async function startStream(index) {
-        const url = import.meta.env.VITE_AI_BASE_URL;
-        const key = import.meta.env.VITE_AI_KEY
-        try {
-            
-            const response = await fetch(url, {
-                "method": "POST",
-                "headers": {
-                    Authorization: `Bearer ${key}`
-                },
-                "mode": "cors",
-                "body": JSON.stringify({
-                    messages: buildMessagePromt(index),
-                }),
-                "timeout": 1000,
-            });
-            left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].msgload = false
-        } catch (error) {
-            left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].content += `发生了一些错误：${response.status}-${response.statusText}`
-            return false
-        }
-    
-        
-        
-        if (response.status !== 200) {
-            left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].content += `发生了一些错误：${response.status}-${response.statusText}`
-            return false
-        }
+        const image =  left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].image;
+        // console.log(image)
+        if(image){
+            console.log(left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].feature)
+            const requestData = {
+                text: left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].text,
+                image: image.split(',')[1],  // 仅发送Base64部分
+                feature: left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].feature
+            };     
+                         
+                fetch("http://localhost:9000/v2", {
+                    "method": "POST",
+                    "headers": {
+                    'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    "mode": "cors",
+                    "body": JSON.stringify(requestData),
+                    "timeout": 1000,
+                }).then(response=>{
+                    if(response.status !== 200){
+                        // console.log(response)
+                        left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].text += `发生了一些错误：${response.status}-${response.statusText}\n后台小哥哥正在维修~`
+                        return false
+                    }
+                    left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].msgload = false
+                    console.log(response)
+            // if (response.status !== 200) {
+            //     left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].text += `发生了一些错误：${response.status}-${response.statusText}`
+            //     return false
+            // }
 
-        const reader = response.body.getReader();
-        let buffer = ''; // 用于缓存数据块
+            const reader = response.body.getReader();
+            let buffer = ''; // 用于缓存数据块
 
-        const readStream = async () => {
-
-            const { done, value } = await reader.read();
-
-            if (done) {
-                console.log('Stream reading complete');
-                return;
-            }
-
-            const chunk = new TextDecoder('utf-8').decode(value);
-            buffer += chunk; // 将数据块追加到缓冲区中
-
-            // 检查缓冲区中是否有完整的数据
-            let completeData = '';
-            let separatorIndex;
-            while ((separatorIndex = buffer.indexOf('\n')) !== -1) {
-                completeData = buffer.slice(0, separatorIndex); // 提取完整的数据
-                buffer = buffer.slice(separatorIndex + 1); // 更新缓冲区，去掉已处理的数据
-
-                // 解析JSON数据
-                const res = completeData.split(": ")[1]
-                let data;
-                try {
-                    data = JSON.parse(res);
-                    // 这里处理业务逻辑
-                    const delta_content = data.choices[0].delta.content
-                    console.log(delta_content)
-
-                    left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].content += delta_content
-                } catch (e) {
-                    // console.error('Error parsing JSON:', e);
-                    continue
+            const readStream = async () => {
+                const { done, value } = await reader.read();
+                if (done) {
+                    console.log('Stream reading complete');
+                    return;
                 }
+
+                const chunk = new TextDecoder('utf-8').decode(value);
+                left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].text += chunk
+                return readStream();
             }
-
+       
+            // 开始处理流数据
             return readStream();
-        }
 
-        // 开始处理流数据
-        return readStream();
+                }).catch(error=>{
+                    if(error.message === 'fail to fetch')
+                    left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].text +='发生了一些错误：${error.message}\n后台小哥哥正在维修~'
+                    console.log(error)
+                    left_data.chat[index].msg_list[left_data.chat[index].msg_list.length - 1].text += `发生了一些错误：${response.status}-${response.statusText}`
+                    return false
+                });
+                
+           
+         };
+        
+        
+        
     }
 
-    // function hasLogin(compomentName = 'Login') {
-    //     console.log(instaceV.proxy.hasLogin)
-    //     if (compomentName == 'Login') return instaceV.proxy.hasLogin ? 'hidden' : '';
-    //     if (compomentName == 'main') return instaceV.proxy.hasLogin ? '' : 'hidden';
-    // }
+
 
     function showSettingFunc() {
         console.log(123)
@@ -715,11 +698,19 @@
 
 <style scoped>
 .container{
-    background-image: url('/assets/算命.jpg');
+    background-image: url('/assets/bg.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 
+}
+.hand{
+    width:300px;
+    height: 300px;
+    background-image: url('/assets/手相.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 .router-link-active {
     border-color: #18a058;
