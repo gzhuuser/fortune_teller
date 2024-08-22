@@ -10,3 +10,5 @@ sentencepiece
 einops
 bitsandbytes 
 flask
+opencv-python
+flask_cors
