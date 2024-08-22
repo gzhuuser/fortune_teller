@@ -57,14 +57,10 @@
                      <div class=" w-1/4  flex justify-center items-center" @click="handleAvatarClick()">
                             <n-tooltip trigger="hover">
                                 <template #trigger>
-                                    <n-button text size="large" class="px-2"
-                                        @click="deleteChatItemHistory(route.params.uuid)">
-                                        
-                                    </n-button>
+                                    <img class=" rounded-full h-10 w-10" :src=" avatar " alt="avatar">
                                 </template>
                                 点击修改头像
                             </n-tooltip>
-                            <img class=" rounded-full h-10 w-10" :src=" avatar " alt="avatar">
                     </div>
                     <input type="file" ref="avatarInput" style="display: none;" @change="handleAvatarChange" accept="image/*" />
                     <!-- 简介 -->
@@ -240,23 +236,6 @@
                                 <Markdown  :source="msglist.text"></Markdown>
                             </div>
                            
-                           
-                            <n-modal  style="width: 600px" class="custom-card" preset="card" v-model:show="showHand"
-                                    title="" size="huge">
-                                    <div class="hand"></div>
-                                    <div class=" mr-4" style="    margin-top:20px;">请选择你要分析的手相线(分析更准确哦): </div>
-                                    <div style="display: flex;">
-                                        <n-select :style="{ width: '60%' }" :options="selectOptions"
-                                        v-model:value="Input_feature" />
-                                        <n-button ghost class=" h-auto dark:text-blue " @click="addMessageListItem(route.params.uuid)">
-                                            选好了~
-                                        </n-button>
-                                    </div>
-                                   
-                            </n-modal>
-                     
-                            
-
                         </div>
                     </div>
 
@@ -313,6 +292,19 @@
                                 发送
                             </n-button>
                         </n-input-group>
+                            <n-modal  style="width: 600px" class="custom-card" preset="card" v-model:show="showHand"
+                                    title="" size="huge">
+                                    <div class="hand"></div>
+                                    <div class=" mr-4" style="    margin-top:20px;">请选择你要分析的手相线(分析更准确哦): </div>
+                                    <div style="display: flex;">
+                                        <n-select :style="{ width: '60%' }" :options="selectOptions"
+                                        v-model:value="Input_feature" />
+                                        <n-button ghost class=" h-auto dark:text-blue " @click="addMessageListItem(route.params.uuid)">
+                                            选好了~
+                                        </n-button>
+                                    </div>
+                                   
+                            </n-modal>
 
                     </div>
                 </div>
@@ -456,7 +448,9 @@
         })
         left_data.chat.push({
             uuid: uuid,
-            msg_list: []
+            msg_list: [
+            { image:null,text: 'hello,我是算命大师，欢迎来到我的网站，请上传你的手相图并向我咨询吧~', feature:'',create_time: (new Date()).toLocaleString('sv-SE', { "timeZone": "PRC" }), reversion: false, msgload: false },
+            ]
         })
 
         // 路由跳转到最新的item
@@ -507,12 +501,14 @@
     
     // 发送消息
     function showHandFcn(){ 
+        
         if(input_area_value.value===''){
             message.error('请输入内容')
         }
         else{
             showHand.value = !showHand.value
         }
+        console.log('showhand',showHand.value)
     }
     function addMessageListItem(uuid) {
         
