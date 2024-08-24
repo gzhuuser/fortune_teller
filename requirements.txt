@@ -12,3 +12,5 @@ bitsandbytes
 flask
 opencv-python
 flask_cors
+protobuf
+python-dotenv
