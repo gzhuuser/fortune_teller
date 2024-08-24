@@ -63,10 +63,7 @@ knowledge_base, model, tokenizer = init()
 @app.route("/v1", methods=["POST"])
 def process_input():
     global history  # 使用全局历史记录变量
-<<<<<<< Updated upstream
-=======
     # 取消上下文
->>>>>>> Stashed changes
     history = []
     data = request.json
 
