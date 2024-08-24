@@ -1,0 +1,14 @@
+transformers
+FlagEmbedding
+peft
+modelscope
+pandas
+numpy
+gradio
+oss2
+sentencepiece
+einops
+bitsandbytes 
+flask
+opencv-python
+flask_cors
