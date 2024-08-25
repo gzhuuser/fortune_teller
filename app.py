@@ -1,6 +1,7 @@
 import os
 import io
 import base64
+from dotenv import load_dotenv
 from PIL import Image
 from flask import Flask, request, jsonify, Response, stream_with_context
 from flask_cors import CORS
@@ -15,11 +16,8 @@ from LLM.model import get_model, generate_response, generate_stream_response
 app = Flask(__name__)
 CORS(app)  # 允许所有来源
 
-# 设置环境变量
-os.environ["key"] = ""
-os.environ["base_url"] = ""
-os.environ["accessKeyId"] = ""
-os.environ["accessKeySecret"] = ""
+# 加载 .env 文件
+load_dotenv()
 
 # 初始化历史记录
 history = []
@@ -63,10 +61,7 @@ knowledge_base, model, tokenizer = init()
 @app.route("/v1", methods=["POST"])
 def process_input():
     global history  # 使用全局历史记录变量
-<<<<<<< Updated upstream
-=======
     # 取消上下文
->>>>>>> Stashed changes
     history = []
     data = request.json
 
