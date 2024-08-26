@@ -1,8 +1,8 @@
 transformers
 FlagEmbedding
-peft
+peft==0.12.0
 modelscope
-pandas
+pandas==2.2.2
 numpy
 gradio
 oss2
@@ -14,3 +14,4 @@ opencv-python
 flask_cors
 protobuf
 python-dotenv
+Union

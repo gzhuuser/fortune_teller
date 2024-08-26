@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Union
 from modelscope import snapshot_download
 from RAG.Knowledge import KnowledgeBase
 
