@@ -16,8 +16,10 @@ vue3
 
 这一部分是使用多模态的代码， 基于gpt4-o来开发的多模态和Yuan2B开发的应用，另一个版本的前端页面是取消了多模态， 采用单纯原生的Yuan2B大模型来开发的， 可以clone下面的代码拿到原生的前端代码
 
+
+基于Yuan2B模型开发的页面
 ```shell
-git clone https://github.com/gzhuuser/fortune_teller.git
+git clone https://github.com/hh404358/fortune_teller
 
 npm install
 # 运行页面
