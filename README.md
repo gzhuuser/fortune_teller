@@ -59,7 +59,7 @@ git clone https://github.com/gzhuuser/fortune_teller.git
 pip install -r requirements.txt
 ```
 
-运行前记得在.env_template里面填写好4.0的key和自己的阿里云oss的key
+运行前记得在.env_template里面填写好4.0的key和自己的阿里云oss的key, 用的时候把.env_template 复制一份出来改名成.env，将key填好
 
 运行后端程序app.py
 
