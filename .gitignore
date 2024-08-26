@@ -6,3 +6,7 @@ AI-ModelScope/
 
 # 忽略所有以 ._____temp 开头的文件或文件夹
 ._____temp*
+
+
+# 忽略所有以 ._____temp 开头的文件或文件夹
+IEITYuan/
