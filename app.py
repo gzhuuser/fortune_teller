@@ -54,14 +54,11 @@ def init():
     tokenizer, model = get_model()
     return knowledge_base, model, tokenizer
 
-
 knowledge_base, model, tokenizer = init()
-
 
 @app.route("/v1", methods=["POST"])
 def process_input():
     global history  # 使用全局历史记录变量
-    # 取消上下文
     history = []
     data = request.json
 
@@ -88,34 +85,24 @@ def process_input():
             system_response = generate_response(tokenizer, model, history)
             history.append({"role": "system", "content": system_response})
 
-            return (
-                jsonify({"status": 200, "statusText": "OK", "body": system_response}),
-                200,
-            )
+            return jsonify({
+                "status": 200,
+                "statusText": "OK",
+                "body": system_response
+            }), 200
         except Exception as e:
             print(str(e))
-            return (
-                jsonify(
-                    {
-                        "status": 500,
-                        "statusText": f"Internal Server Error: {str(e)}",
-                        "body": None,
-                    }
-                ),
-                500,
-            )
+            return jsonify({
+                "status": 500,
+                "statusText": f"Internal Server Error: {str(e)}",
+                "body": None
+            }), 500
     else:
-        return (
-            jsonify(
-                {
-                    "status": 400,
-                    "statusText": "Bad Request: No image uploaded",
-                    "body": None,
-                }
-            ),
-            400,
-        )
-
+        return jsonify({
+            "status": 400,
+            "statusText": "Bad Request: No image uploaded",
+            "body": None
+        }), 400
 
 @app.route("/v2", methods=["POST"])
 def process_input_v2():
@@ -135,7 +122,7 @@ def process_input_v2():
             image.save(image_path)
             print("Image saved to", image_path)
             preprocess_hand_image(image_path)
-
+            
             # 使用初始化的模型处理图像
             cloud_url = pic2url(image_path)
             MMML_res = MMML(cloud_url)
@@ -160,32 +147,73 @@ def process_input_v2():
                 headers={
                     "status": 200,
                     "statusText": "OK",
-                },
+                }
             )
         except Exception as e:
             print("Error occurred:", str(e))
-            return (
-                jsonify(
-                    {
-                        "status": 500,
-                        "statusText": f"Internal Server Error: {str(e)}",
-                        "body": None,
-                    }
-                ),
-                500,
-            )
+            return jsonify({
+                "status": 500,
+                "statusText": f"Internal Server Error: {str(e)}",
+                "body": None
+            }), 500
     else:
-        return (
-            jsonify(
-                {
-                    "status": 400,
-                    "statusText": "Bad Request: No image uploaded",
-                    "body": None,
+        return jsonify({
+            "status": 400,
+            "statusText": "Bad Request: No image uploaded",
+            "body": None
+        }), 400
+
+
+@app.route("/v3", methods=["POST"])
+def process_input_v3():
+    global history  # 使用全局历史记录变量
+    history = []
+    data = request.json
+
+    text = data.get("text")
+    feature = data.get("feature")
+    
+    if feature:
+        try:
+            # 直接进行RAG处理
+            RAG_res = rag_matching(text, knowledge_base, feature, topk=1)
+
+            content = PROMPT.format(
+                MMML_res=text, RAG_res=RAG_res, user_input="帮我分析一下手相"
+            )
+            history.append({"role": "user", "content": content})
+
+            def generate():
+                try:
+                    for response in generate_stream_response(tokenizer, model, history):
+                        yield response
+                except Exception as e:
+                    print(f"Error during stream response generation: {str(e)}")
+                    raise e
+
+            return Response(
+                stream_with_context(generate()),
+                content_type="text/plain",
+                headers={
+                    "status": 200,
+                    "statusText": "OK",
                 }
-            ),
-            400,
-        )
+            )
+        except Exception as e:
+            print("Error occurred:", str(e))
+            return jsonify({
+                "status": 500,
+                "statusText": f"Internal Server Error: {str(e)}",
+                "body": None
+            }), 500
+    else:
+        return jsonify({
+            "status": 400,
+            "statusText": "Bad Request: No feature provided",
+            "body": None
+        }), 400
+
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=6006, debug=False)
+    app.run(host="0.0.0.0", port=9000, debug=False)
