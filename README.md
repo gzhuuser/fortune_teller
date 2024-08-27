@@ -17,8 +17,13 @@
 | Puppet | 男   | 江南大学             | 研究生 | LLM部分              |
 | 梦想   | 男   | 电子科技大学成都学院 | 本科生 | 后端Flask接口   |
 
+## 项目配置
+```
+GPU: 8G显存或以上
+CPU: 16GB或以上
+```
 
-## 算命大师安装文档
+## 算命大师项目配置文档
 
 
 
@@ -78,7 +83,7 @@ git clone https://github.com/gzhuuser/fortune_teller.git
 pip install -r requirements.txt
 ```
 
-运行前记得在.env_template里面填写好4.0的key和自己的阿里云oss的key, 用的时候把.env_template 复制一份出来改名成.env，将key填好
+如果是使用多模态版本的,在运行前记得在.env_template里面填写好4.0的key和自己的阿里云oss的key, 用的时候把.env_template 复制一份出来改名成.env，将key填好
 
 运行后端程序app.py
 
@@ -99,7 +104,7 @@ python app.py
 
 ![](./img/8.png)
 
-### 输入ssh指令和密码，就可以访问本地的http://localhost:6006/v1和v2了
+### 输入ssh指令和密码，就可以访问本地的http://localhost:6006/v1和v2了, 如果不是多模态UI的话,则使用的是v3接口
 
 ![](./img/9.png)
 
