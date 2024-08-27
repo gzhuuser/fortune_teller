@@ -17,6 +17,12 @@
 | 刘伟鸿 | 男   | 江南大学             | 研究生 | LLM部分              |
 | 梦想   | 男   | 电子科技大学成都学院 | 本科生 | 后端Flask接口   |
 
+## 模型说明
+```
+LLM: 使用Yuan2B系列大模型,在LLM/model.py文件下
+RAG: 使用智谱开源RAG模型bge-large-zh-v1.5, 在app.py下加载
+```
+
 ## 项目配置
 ```
 GPU: 8G显存或以上
@@ -25,6 +31,7 @@ CPU: 16GB或以上
 
 ## 算命大师项目配置文档
 
+[在线体验链接](https://www.modelscope.cn/studios/gzhuSxb/fortune_teller)
 
 
 下载Nodejs， 版本信息
