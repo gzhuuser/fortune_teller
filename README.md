@@ -24,10 +24,9 @@
 
 下载Nodejs， 版本信息
 
-```
+```shell
 node 18.6.0 
 npm 9.6.2 
-vue3
 ```
 
 
